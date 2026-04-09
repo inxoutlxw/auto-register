@@ -27,8 +27,14 @@ source .venv/bin/activate
 
 ### 2. 安装依赖
 
+您可以直接安装目前最新补充的 `requirements.txt`，或者通过本项目自带的构建机制安装：
+
 ```bash
-pip install -r requirements.txt  # 或 pip install .
+pip install -r requirements.txt
+# 或者
+# pip install .
+
+# 必须执行这一步以安装系统内部浏览器内核
 playwright install chromium
 ```
 

@@ -15,8 +15,8 @@ def create_browser_context(
     """创建 Playwright 浏览器和上下文。
 
     根据环境变量自动配置：
-    - ENABLE_STEALTH_BROWSER=true → 注入 playwright-stealth
-    - FLARE_SOLVERR_URL → 设置 HTTP 代理
+    - USE_PLAYWRIGHT_STEALTH=true → 注入 playwright-stealth 插件防机器人检测
+    - HTTP_PROXY_URL → 设置浏览器底层 HTTP/SOCKS 代理
 
     Args:
         sync_playwright: Playwright sync_playwright 实例。
@@ -25,14 +25,14 @@ def create_browser_context(
     Returns:
         (browser, context) 元组。
     """
-    enable_stealth = os.environ.get("ENABLE_STEALTH_BROWSER", "false").lower() == "true"
-    flare_url = os.environ.get("FLARE_SOLVERR_URL")
+    enable_stealth = os.environ.get("USE_PLAYWRIGHT_STEALTH", "false").lower() == "true"
+    proxy_url = os.environ.get("HTTP_PROXY_URL")
 
     # 构建启动参数
     launch_kwargs: dict[str, Any] = {"headless": headless}
-    if flare_url:
-        launch_kwargs["proxy"] = {"server": flare_url}
-        logger.info(f"已配置 FlareSolverr 代理: {flare_url}")
+    if proxy_url:
+        launch_kwargs["proxy"] = {"server": proxy_url}
+        logger.info(f"已配置代理服务器: {proxy_url}")
 
     browser = sync_playwright.chromium.launch(**launch_kwargs)
     context = browser.new_context()
@@ -41,7 +41,6 @@ def create_browser_context(
     if enable_stealth:
         try:
             from playwright_stealth import Stealth  # type: ignore
-
             stealth = Stealth()
             stealth.apply_stealth_sync(context)
         except ImportError:

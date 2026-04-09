@@ -1,0 +1,105 @@
+name: qwen
+
+# ============================================================
+# URL 配置
+# ============================================================
+urls:
+  register: "https://chat.qwen.ai/auth?mode=register"
+  login: "https://chat.qwen.ai/auth"
+  home: "https://chat.qwen.ai"
+
+# ============================================================
+# 表单选择器（CSS / Playwright 选择器语法）
+# ============================================================
+selectors:
+  username: 'input[placeholder*="用户"], input[placeholder*="username"], input[name="username"], input[type="text"]'
+  email: 'input[type="email"], input[name="email"], input[placeholder*="邮箱"]'
+  password: 'input[type="password"]'
+  agree: 'label:has-text("我同意"), input[type="checkbox"]'
+  submit_register: 'button[type="submit"], button:has-text("注册"), button:has-text("Register")'
+  submit_login: 'button[type="submit"], button:has-text("登录"), button:has-text("Login")'
+  # 用于 JS 等待按钮可点击的选择器
+  submit_button_js: 'button[type=submit]'
+
+# ============================================================
+# 注册流程配置
+# ============================================================
+registration:
+  has_username: true                 # 注册表单是否有用户名字段
+  has_agree_checkbox: true           # 是否有「同意协议」复选框
+  has_confirm_password: true         # 是否有确认密码字段
+  post_submit_wait_ms: 3000          # 提交后等待时间（毫秒）
+  post_activation_skip_login: false  # 激活后是否自动登录（无需手动登录）
+
+# ============================================================
+# 激活邮件过滤（可选）
+# ============================================================
+activation:
+  subject_contains: null           # 邮件主题包含（null 表示不过滤）
+  from_contains: null              # 发件人包含（null 表示不过滤）
+
+# ============================================================
+# OAuth 设备码流程配置
+# ============================================================
+oauth:
+  enabled: true
+  base_url: "https://chat.qwen.ai"
+  client_id: "f0304373b74a44d2b584a3fb70ca9e56"
+  scope: "openid profile email model.completion"
+  device_code_path: "/api/v1/oauth2/device/code"
+  token_path: "/api/v1/oauth2/token"
+  poll_interval: 2.0               # token 轮询间隔（秒）
+  timeout_seconds: 300.0           # OAuth 流程超时（秒）
+  approve_selectors:
+    - 'button:has-text("同意")'
+    - 'button:has-text("授权")'
+    - 'button:has-text("允许")'
+    - 'button:has-text("确认")'
+    - 'button:has-text("Confirm")'
+    - 'button:has-text("Approve")'
+    - 'button:has-text("Authorize")'
+    - 'button:has-text("Allow")'
+    - 'button:has-text("Continue")'
+    - 'a:has-text("同意")'
+    - 'a:has-text("授权")'
+    - '[role="button"]:has-text("同意")'
+    - '[role="button"]:has-text("授权")'
+    - '[data-testid="approve"]'
+    - 'button[type="submit"]'
+    - 'input[type="submit"]'
+  code_input_selectors:
+    - 'input[placeholder*="码"]'
+    - 'input[placeholder*="code"]'
+    - 'input[name*="code"]'
+    - 'input[placeholder*="Code"]'
+  # JS 回退点击时匹配的文本列表
+  js_approve_texts:
+    - "同意"
+    - "授权"
+    - "允许"
+    - "Approve"
+    - "Authorize"
+    - "Allow"
+    - "确认"
+
+# ============================================================
+# 输出配置
+# ============================================================
+output:
+  format: json
+  directory: "./token"
+  filename_template: "{site_name}-{timestamp}.json"
+  # 输出的 JSON 字段映射（支持变量模板）
+  # 可用变量：{access_token}, {refresh_token}, {email}, {resource_url},
+  #          {expired_iso}, {last_refresh_iso}, {site_name}
+  fields:
+    access_token: "{access_token}"
+    disabled: false
+    email: "{email}"
+    expired: "{expired_iso}"
+    last_refresh: "{last_refresh_iso}"
+    refresh_token: "{refresh_token}"
+    resource_url: "{resource_url}"
+    type: "{site_name}"
+
+

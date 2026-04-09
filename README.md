@@ -74,7 +74,7 @@ python -m cli --site qwen --headless
 | `AUTO_REGISTER_EMAIL_TIMEOUT` | `120` | 等待激活邮件超时（秒） |
 | `AUTO_REGISTER_POLL_INTERVAL` | `5` | 邮件轮询间隔（秒） |
 | `USE_PLAYWRIGHT_STEALTH` | `false` | 启用底层 Stealth 浏览器注入防机器指纹检测 |
-| `HTTP_PROXY_URL` | - | 真实配置的底层住宅网络代理地址 (Proxy URL) |
+| `HTTP_PROXY_URL` | - | 网络代理地址 (Proxy URL) |
 | `SAVE_DIR` | `./token` | Token 输出目录 |
 
 ### 站点配置 (`config/*.yaml`)

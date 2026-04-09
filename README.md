@@ -8,8 +8,8 @@
 - **可插拔邮箱**：内置 Mail.tm 和 1secMail，通过注册表模式扩展
 - **可插拔站点策略**：每个站点独立策略文件，新增站点无需修改引擎代码
 - **可配置输出**：JSON / ENV 等格式，字段映射可自定义
-- **Stealth 浏览器**：可选启用 playwright-stealth 规避检测
-- **FlareSolverr 代理**：可选配置代理绕过 Cloudflare
+- **Stealth 放越权引擎**：可选启用 playwright-stealth 直接在浏览器底层规避检测
+- **住宅 HTTP 代理池防封**：支持直接配置代理节点穿透数据中心黑名单
 
 ## 快速开始
 
@@ -73,8 +73,8 @@ python -m cli --site qwen --headless
 | `AUTO_REGISTER_NAVIGATION_TIMEOUT` | `30000` | 页面导航超时（毫秒） |
 | `AUTO_REGISTER_EMAIL_TIMEOUT` | `120` | 等待激活邮件超时（秒） |
 | `AUTO_REGISTER_POLL_INTERVAL` | `5` | 邮件轮询间隔（秒） |
-| `ENABLE_STEALTH_BROWSER` | `false` | 启用 Stealth 浏览器 |
-| `FLARE_SOLVERR_URL` | - | FlareSolverr 代理 URL |
+| `USE_PLAYWRIGHT_STEALTH` | `false` | 启用底层 Stealth 浏览器注入防机器指纹检测 |
+| `HTTP_PROXY_URL` | - | 真实配置的底层住宅网络代理地址 (Proxy URL) |
 | `SAVE_DIR` | `./token` | Token 输出目录 |
 
 ### 站点配置 (`config/*.yaml`)
